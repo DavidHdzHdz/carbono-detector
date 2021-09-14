@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body>
+
+    <div class="container">
+
+      <%- include('./partials/header.ejs', { page: 'index' }) %>
+
+	    <% if (flask_debug === 'true') { %>
+        <div class="alert alert-danger">
+          Flask is in debug mode. This is not safe for production.
+        </div>
+      <% } %>
+
+      <!-- Alert Info Messages -->
+      <div id="signupSuccess" class="alert alert-success" style="display:none">
+        <p id="signupSuccessText">Gracias por registrarte! Serás de los primeros en saber cuándo salgamos.</p>
+      </div>
+      <div id="signupDuplicate" class="alert alert-success" style="display:none">
+        <p id="signupDuplicateText">¡No temas, ya estás en la lista! Serás de los primeros en saber cuándo salgamos.</p>
+      </div>
+      <div id="signupError" class="alert alert-info" style="display:none">
+        <p id="signupErrorText">Bueno, una disculpa. Parece que estamos teniendo problemas para incluirlo en la lista.</p>
+      </div>
+
+      <div class="jumbotron">
+        <h2>Una gran solución esta por llegar...</h2>
+        <br/>
+        <p class="lead" style="font-size: 18px;">
+          Estamos muy emocionados de presentar nuestra última creación.
+          Ayudamos a tener espacios libres de Covid y contaminacion,
+          garantizamos un lugar seguro para todos sus clientes mediante nuestro
+          dispositivo de monitoreo constante, recomendaciones y certificaciones con valides oficial.
+          <br/>
+          <br/>
+          ¡Regístrese a continuación para recibir una notificación cuando lancemos oficialmente!
+        </p>
+        <p><a class="btn btn-lg btn-info"  data-toggle="modal" href="#signupModal">Registrate hoy</a></p>
+      </div>
+
+
+      <%- include('./partials/footer.ejs') %>
+
+      <!-- Modal -->
+      <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Proporcione algunos detalles y nos pondremos en contacto ...</h4>
+            </div>
+            <div class="modal-body">
+              <form id="signupForm" role="form">
+                <input type="hidden" id="theme" name="theme" value="<%= theme %>"/>
+                <div class="form-group">
+                  <label for="name">Nombre</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Su nombre">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Su email">
+                </div>
+                <div class="form-group">
+                  <label for="previewAccess">Esta interesado en probar la primera versión?</label>
+                  <select class="form-control" name="previewAccess">
+                    <option>Sí</option>
+                    <option>No</option>
+                  </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#"><button id="signup" type="button" class="btn btn-success">Registrarse!</button></a>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+    </div> <!-- /container -->
+
+
+    <%- include('./partials/scripts.ejs') %>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#signup").click(function() {
+          $.post(
+            "/signup",
+            $("#signupForm").serialize(),
+            function(data) {
+              $("#signupSuccess").show();
+            }
+          )
+            .error(function(xhr) {
+              switch(xhr.status) {
+                case 409:
+                  $("#signupDuplicate").show();
+                  break;
+                default:
+                  $("#signupError").show();
+              }
+            })
+            .always(function() {
+              $("#signupModal").modal('hide');
+            });
+        });
+      });
+    </script>
+
+  </body>
+</html>

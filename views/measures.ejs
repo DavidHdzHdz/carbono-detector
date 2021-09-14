@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+  </head>
+  <body>
+
+    <div class="container">
+
+      <%- include('./partials/header.ejs', { page: 'devices' }) %>
+
+      <!-- title and add go back button -->
+      <div style="height: 50px;">
+        <a class="btn btn-info pull-left" href="/devices-view">
+          <<< Regresar a dispositivos
+        </a>
+      </div>
+      <div style="margin-bottom: 50px;">
+        <h2>Registros de mediciones</h3>
+      </div>
+
+      <!-- measures table -->
+      <div>
+        <table class="table table-bordered">
+          <tr>
+            <th>Serial Number</th>
+            <th>Time Stamp</th>
+            <th>HUM</th>
+            <th>TEMP</th>
+            <th>PPM</th>
+          </tr>
+          <% measures.forEach(measure => { %>
+            <tr class="active">
+              <td><%= measure.serialNumber %></td>
+              <td><%= new Date(measure.timeStamp).toLocaleString() %></td>
+              <td><%= measure.HUM %></td>
+              <td><%= measure.TEMP %></td>
+              <td><%= measure.PPM %></td>
+            </tr>
+          <% }) %>
+        </table>
+
+      </div>
+
+      <br />
+
+      <%- include('./partials/footer.ejs') %>
+
+    </div> <!-- /container -->
+
+    <%- include('./partials/scripts.ejs') %>
+    <script>
+      $(document).ready(() => {
+        console.log('Doing retro code for carbono detector measures!');
+      });
+    </script>
+
+  </body>
+</html>

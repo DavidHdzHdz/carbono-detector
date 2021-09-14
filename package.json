@@ -1,0 +1,20 @@
+{
+  "name": "Elastic-Beanstalk-Sample-App",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "aws-sdk": "latest",
+    "body-parser": "latest",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "ejs": "latest",
+    "express": "latest"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "start-dev": "nodemon app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}

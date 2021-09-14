@@ -1,0 +1,10 @@
+.DS_Store
+
+# Elastic Beanstalk CLI Files
+.elasticbeanstalk/*
+/.ebextensions
+/node_modules
+*.zip
+
+.env
+yarn.lock
