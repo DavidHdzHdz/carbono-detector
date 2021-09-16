@@ -164,6 +164,20 @@ if (cluster.isMaster) {
   /**
    *  Devices API
    */
+   app.get('/devices', async (_, res) => {
+    let devices = [];
+
+    ddb.scan({ TableName: devicesTableName, Select: 'ALL_ATTRIBUTES' }, (err, data) => {
+      if (!err) {
+        devices = data.Items.map(device => mapDinamoResponse(device));
+        res.status(200).json({ items: devices }).end();
+      } else {
+        console.log('ddbError: ', err);
+        res.status(500).end();
+      }
+    });
+  });
+
   app.post('/devices', (req, res) => {
     const device = {
       'serialNumber': { 'S': req.body.serialNumber },
