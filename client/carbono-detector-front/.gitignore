@@ -1,14 +1,3 @@
-.DS_Store
-
-# Elastic Beanstalk CLI Files
-.elasticbeanstalk/*
-/.ebextensions
-/node_modules
-*.zip
-
-.env
-yarn.lock
-
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
